@@ -1,0 +1,102 @@
+#create table countries (sno int(5), name varchar(20) , population_in_million int(10),continent varchar(20),price_person int(100)); 
+# name - Jugraj Singh Pelia
+# class - 12-E
+# rollno. - 21
+from tabulate import tabulate
+import mysql.connector as m
+conn=m.connect(host='localhost',user='root',passwd='EmePers@2017',database='jugraj')
+cur=conn.cursor()
+a = 1
+while (a==1):
+
+    try:
+        
+        print("1. Enter Records")
+        print("2. Delete A Particular Record")
+        print("3. Search A Record")
+        print("4. Display All The Records")
+        print("5. Price Person and Number Of People Want To Travel ")
+        print("6. Exit")
+        num = int(input("Enter Your Choice :- "))
+
+        if (num==1):
+            c = []
+            sno = int(input("Enter S.No :- "))
+            name_country = input("Enter The Name Of The Country :- ")
+            pop_mn = int(input("Enter The Population Of The Country (in million) :-"))
+            conti = input("Enter The Continent The Country Is Situated In :- ")
+            price_person = int(input("Enter The Price Per Person :- "))
+
+            
+            c.append(sno)
+            c.append(name_country)
+            c.append(pop_mn)
+            c.append(conti)
+            c.append(price_person)
+            i = "insert into countries values(%s,%s,%s,%s,%s)"
+        
+            cur.execute(i,c)  
+            conn.commit()
+            
+
+        elif(num==2):
+            d_v="delete from countries where name = %s"
+            country_name=input("Enter The Name Of The Country To Be Deleted")
+            q = (country_name,)
+            cur.execute(d_v,q)
+            conn.commit()
+            
+
+        elif (num==3):
+            search_r = "select * from countries where name = %s"
+            s_r = input ("Enter The Name Of The Country :- ")
+            x = (s_r,)
+            cur.execute(search_r,x)
+            for i in cur:
+                print(i)
+                
+                
+
+        elif (num==4):
+            cur.execute("select sno, name, population_in_million, continent, price_person from countries order by sno")
+            print ("---------------------------RESULT-------------------------------------")
+            col_headers = ["Ser No","Name of Country", "Populaton In Million", "Continent", "Price per person (in $)"]
+            
+
+            mylist = []
+            mylist = [[i[0],i[1],i[2],i[3],i[4]] for i in cur]
+            print(tabulate (mylist , headers = col_headers , tablefmt="grid"))
+
+                       
+        
+                                
+        elif (num==5):
+            
+
+            country__travel  = input("Enter The Name Of The Country You Want To Travel To :- ")
+            ct = (country__travel,)
+            people_travel = int(input("How Many People Want To Travel ? "))
+            search_result = "select price_person from countries where name =%s"
+            
+            cur.execute(search_result,ct)
+            for i in cur:
+                res_cost = i[0]
+                res = people_travel*(i[0])
+
+            print()
+            print("The Cost Of Per Person Travel According To Our Database Is - ", res_cost)
+            print ("You Selected The Country Of Travel = ", country__travel)
+            print ("The Cost Of Travelling For",people_travel,"People =",res)
+            
+            
+                
+            
+        elif (num==6):
+            a = 2
+
+            
+        else:
+            print("Enter Number Between 1 To 6 ")
+        
+    except:
+        print("Something went wrong")
