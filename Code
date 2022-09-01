@@ -1,7 +1,3 @@
-#create table countries (sno int(5), name varchar(20) , population_in_million int(10),continent varchar(20),price_person int(100)); 
-# name - Jugraj Singh Pelia
-# class - 12-E
-# rollno. - 21
 from tabulate import tabulate
 import mysql.connector as m
 conn=m.connect(host='localhost',user='root',passwd='EmePers@2017',database='jugraj')
