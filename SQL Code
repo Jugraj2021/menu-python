@@ -1,0 +1,2 @@
+create table countries (sno int(5), name varchar(20) , population_in_million int(10),continent varchar(20),price_person int(100)); 
+ 
